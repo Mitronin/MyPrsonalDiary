@@ -1,5 +1,7 @@
 package com.example.addd.mypersonaldiary;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
+    final Calendar c = Calendar.getInstance();
+    private int myYear = c.get(Calendar.YEAR);
+    private int myMonth = c.get(Calendar.MONTH);
+    private int myDay = c.get(Calendar.DAY_OF_MONTH);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                openDialog();
             }
         });
     }
@@ -49,4 +60,19 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void openDialog() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, myCallBack, myYear, myMonth, myDay);
+        datePickerDialog.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener myCallBack = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            myYear = year;
+            myMonth = monthOfYear;
+            myDay = dayOfMonth;
+            Toast.makeText(getApplicationContext(), "Year = " + myYear + "Month = " + myMonth + "Day = " + myDay, Toast.LENGTH_SHORT).show();
+        }
+    };
 }
